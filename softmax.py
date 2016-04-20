@@ -26,6 +26,10 @@ sess.run(tf.initialize_all_variables())
 for i in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
     sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    if i % 100 == 0:
+        acc = sess.run(accuracy,
+                       feed_dict={x: mnist.test.images, y_: mnist.test.labels})
+        print('step %d, test accuracy %.4f' % (i, acc))
 
 test_acc = sess.run(accuracy,
                     feed_dict={x: mnist.test.images, y_: mnist.test.labels})

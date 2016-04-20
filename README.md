@@ -17,8 +17,12 @@ storage bucket (this is the linux cpu one for python 2.7):
 the MNIST data downloads itself into MNIST_data/ the first time a
 script runs.
 
+## running it
+
+    python softmax.py
+
 ## plan
 
-- [ ] softmax regression (the tutorial one)
+- [x] softmax regression (the tutorial one) — 92%
 - [ ] a real convolutional net
 - [ ] draw my own digits and have it guess them
