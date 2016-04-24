@@ -20,9 +20,17 @@ script runs.
 ## running it
 
     python softmax.py
+    python cnn.py      # the good one
 
 ## plan
 
 - [x] softmax regression (the tutorial one) — 92%
-- [ ] a real convolutional net
+- [x] a real convolutional net — 98.6%!
 - [ ] draw my own digits and have it guess them
+
+## results
+
+| model | test accuracy |
+| ----- | ------------- |
+| softmax regression | 92.1% |
+| convnet (2 conv + 2 pool) | 98.6% |
