@@ -29,8 +29,9 @@ h_pool2 = tf.nn.max_pool(h_conv2, ksize=[1, 2, 2, 1],
                          strides=[1, 2, 2, 1], padding='SAME')
 
 # dense layer
-h_pool2_flat = tf.reshape(h_pool2, [-1, 14 * 14 * 64])
-W_fc1 = tf.Variable(tf.truncated_normal([14 * 14 * 64, 1024], stddev=0.1))
+# 28 -> 14 -> 7, the SECOND pool halves it again. that took a while
+h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
+W_fc1 = tf.Variable(tf.truncated_normal([7 * 7 * 64, 1024], stddev=0.1))
 b_fc1 = tf.Variable(tf.constant(0.1, shape=[1024]))
 h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
