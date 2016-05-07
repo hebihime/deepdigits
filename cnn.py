@@ -35,10 +35,14 @@ W_fc1 = tf.Variable(tf.truncated_normal([7 * 7 * 64, 1024], stddev=0.1))
 b_fc1 = tf.Variable(tf.constant(0.1, shape=[1024]))
 h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
+# dropout, the paper says it stops overfitting
+keep_prob = tf.placeholder(tf.float32)
+h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
+
 # readout layer
 W_fc2 = tf.Variable(tf.truncated_normal([1024, 10], stddev=0.1))
 b_fc2 = tf.Variable(tf.constant(0.1, shape=[10]))
-y = tf.nn.softmax(tf.matmul(h_fc1, W_fc2) + b_fc2)
+y = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
 cross_entropy = tf.reduce_mean(
     -tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
@@ -52,11 +56,12 @@ sess.run(tf.initialize_all_variables())
 
 for i in range(2000):
     batch = mnist.train.next_batch(50)
-    sess.run(train_step, feed_dict={x: batch[0], y_: batch[1]})
+    sess.run(train_step, feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
     if i % 100 == 0:
-        acc = sess.run(accuracy, feed_dict={x: batch[0], y_: batch[1]})
+        acc = sess.run(accuracy, feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
         print('step %d, training accuracy %.4f' % (i, acc))
 
 test_acc = sess.run(accuracy,
-                    feed_dict={x: mnist.test.images, y_: mnist.test.labels})
+                    feed_dict={x: mnist.test.images, y_: mnist.test.labels,
+                               keep_prob: 0.5})
 print('final test accuracy: %.4f' % test_acc)
