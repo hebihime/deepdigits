@@ -54,14 +54,14 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess = tf.Session()
 sess.run(tf.initialize_all_variables())
 
-for i in range(2000):
+for i in range(5000):
     batch = mnist.train.next_batch(50)
     sess.run(train_step, feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
     if i % 100 == 0:
-        acc = sess.run(accuracy, feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+        acc = sess.run(accuracy, feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
         print('step %d, training accuracy %.4f' % (i, acc))
 
 test_acc = sess.run(accuracy,
                     feed_dict={x: mnist.test.images, y_: mnist.test.labels,
-                               keep_prob: 0.5})
+                               keep_prob: 1.0})
 print('final test accuracy: %.4f' % test_acc)

@@ -34,3 +34,4 @@ script runs.
 | ----- | ------------- |
 | softmax regression | 92.1% |
 | convnet (2 conv + 2 pool) | 98.6% |
+| convnet + dropout | 99.1% |
