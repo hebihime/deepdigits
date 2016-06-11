@@ -42,10 +42,13 @@ h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 # readout layer
 W_fc2 = tf.Variable(tf.truncated_normal([1024, 10], stddev=0.1))
 b_fc2 = tf.Variable(tf.constant(0.1, shape=[10]))
-y = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+y_logits = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
+y = tf.nn.softmax(y_logits)
 
+# my hand rolled cross entropy hit log(0) and the loss went NaN around
+# step 1400. the builtin op is stable apparently
 cross_entropy = tf.reduce_mean(
-    -tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
+    tf.nn.softmax_cross_entropy_with_logits(y_logits, y_))
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
