@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+import os
+
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -54,6 +56,10 @@ train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
+saver = tf.train.Saver()
+if not os.path.exists('checkpoints'):
+    os.makedirs('checkpoints')
+
 sess = tf.Session()
 sess.run(tf.initialize_all_variables())
 
@@ -63,6 +69,10 @@ for i in range(5000):
     if i % 100 == 0:
         acc = sess.run(accuracy, feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
         print('step %d, training accuracy %.4f' % (i, acc))
+    if i % 1000 == 0 and i > 0:
+        saver.save(sess, 'checkpoints/digits', global_step=i)
+
+saver.save(sess, 'checkpoints/digits-final')
 
 test_acc = sess.run(accuracy,
                     feed_dict={x: mnist.test.images, y_: mnist.test.labels,
