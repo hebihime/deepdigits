@@ -12,7 +12,7 @@ start small, right?
 TensorFlow isn't on pip yet — you install a wheel straight from google's
 storage bucket (this is the linux cpu one for python 2.7):
 
-    sudo pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.7.1-cp27-none-linux_x86_64.whl
+    sudo pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.9.0-cp27-none-linux_x86_64.whl
 
 the MNIST data downloads itself into MNIST_data/ the first time a
 script runs.
