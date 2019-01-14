@@ -49,8 +49,9 @@ y = tf.nn.softmax(y_logits)
 
 # my hand rolled cross entropy hit log(0) and the loss went NaN around
 # step 1400. the builtin op is stable apparently
+# (2019: tf 1.x makes you spell out the argument names now)
 cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits(y_logits, y_))
+    tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_logits))
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
@@ -61,7 +62,7 @@ if not os.path.exists('checkpoints'):
     os.makedirs('checkpoints')
 
 sess = tf.Session()
-sess.run(tf.initialize_all_variables())
+sess.run(tf.global_variables_initializer())
 
 for i in range(5000):
     batch = mnist.train.next_batch(50)

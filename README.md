@@ -27,6 +27,7 @@ script runs.
 - [x] softmax regression (the tutorial one) — 92%
 - [x] a real convolutional net — 98.6%!
 - [ ] draw my own digits and have it guess them
+- [ ] port all this to eager mode / tf 2.0 someday
 
 ## results
 
