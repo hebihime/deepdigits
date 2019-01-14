@@ -9,10 +9,10 @@ start small, right?
 
 ## setup
 
-TensorFlow isn't on pip yet — you install a wheel straight from google's
-storage bucket (this is the linux cpu one for python 2.7):
+    pip install -r requirements.txt
 
-    sudo pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.9.0-cp27-none-linux_x86_64.whl
+(2019 edit: this used to be a wheel url from google's storage bucket,
+because tensorflow wasn't even on pypi back then. wild.)
 
 the MNIST data downloads itself into MNIST_data/ the first time a
 script runs.
